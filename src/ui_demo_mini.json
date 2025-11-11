@@ -1,0 +1,282 @@
+{
+  "name": "demo-mini",
+  "groups": {
+    "demo-ci-cd": {
+      "name": "demo-ci-cd",
+      "repos": {
+        "checkout-service": {
+          "name": "checkout-service",
+          "description": "Pipelines that package the Kai checkout microservice",
+          "images": {
+            "2.4.0": {
+              "name": "quay.example.com/demo-ci/checkout-service:2.4.0",
+              "version": "2.4.0",
+              "baseImage": "quay.example.com/base-images/node18-alpine:latest",
+              "buildType": "node",
+              "maintainer": "Kai Security Platform",
+              "createTime": "2024-04-20T12:30:00Z",
+              "vulnerabilities": [
+                {
+                  "cve": "CVE-2024-1111",
+                  "title": "Spring Expression DoS in Checkout pipeline",
+                  "summary": "A crafted SpEL expression can exhaust CPU on the checkout pipeline controller, blocking deployments and exposing data exfiltration telemetry.",
+                  "severity": "critical",
+                  "cvss": 9.8,
+                  "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                  "published": "2024-04-12T10:22:00Z",
+                  "updated": "2024-04-18T08:13:00Z",
+                  "riskFactors": [
+                    "Attack vector: network",
+                    "Public exploit",
+                    "Requires patch"
+                  ],
+                  "exploitAvailable": true,
+                  "status": "fix available",
+                  "kaiStatus": "needs-review",
+                  "analysisSource": "ai",
+                  "aiConfidence": 0.82,
+                  "manualConfidence": 0.45,
+                  "packageName": "org.springframework:spring-expression",
+                  "packageVersion": "6.1.3",
+                  "fixVersion": "6.1.5",
+                  "trendScore": 5,
+                  "tags": [
+                    "cicd",
+                    "spring"
+                  ],
+                  "references": [
+                    "https://nvd.nist.gov/vuln/detail/CVE-2024-1111",
+                    "https://github.com/spring-projects/spring-framework/releases/tag/v6.1.5"
+                  ],
+                  "timeline": [
+                    { "label": "Detected", "date": "2024-04-12T10:22:00Z" },
+                    { "label": "Triaged", "date": "2024-04-15T14:45:00Z" },
+                    { "label": "Fix Released", "date": "2024-04-18T08:13:00Z" }
+                  ]
+                },
+                {
+                  "cve": "CVE-2023-25001",
+                  "title": "Pipeline config leak through mis-scoped token",
+                  "summary": "The pipeline bootstrap container exposes an environment variable that grants read/write to the artifact registry.",
+                  "severity": "medium",
+                  "cvss": 6.5,
+                  "vector": "AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:L/A:N",
+                  "published": "2023-11-03T09:10:00Z",
+                  "updated": "2024-01-05T11:30:00Z",
+                  "riskFactors": [
+                    "Secrets exposure",
+                    "Misconfiguration"
+                  ],
+                  "exploitAvailable": false,
+                  "status": "awaiting rollout",
+                  "kaiStatus": "confirmed",
+                  "analysisSource": "manual",
+                  "aiConfidence": 0.34,
+                  "manualConfidence": 0.78,
+                  "packageName": "checkout-bootstrap",
+                  "packageVersion": "2.4.0",
+                  "fixVersion": "2.4.1",
+                  "trendScore": 2,
+                  "tags": [
+                    "cicd"
+                  ],
+                  "references": [
+                    "https://confluence.kai/platform/checkout/pipeline-secret-hardening"
+                  ],
+                  "timeline": [
+                    { "label": "Detected", "date": "2023-11-03T09:10:00Z" },
+                    { "label": "Manual Review", "date": "2023-11-04T16:20:00Z" }
+                  ]
+                }
+              ]
+            },
+            "2.3.1": {
+              "name": "quay.example.com/demo-ci/checkout-service:2.3.1",
+              "version": "2.3.1",
+              "baseImage": "quay.example.com/base-images/node18-alpine:latest",
+              "buildType": "node",
+              "maintainer": "Kai Security Platform",
+              "createTime": "2024-02-10T08:00:00Z",
+              "vulnerabilities": [
+                {
+                  "cve": "CVE-2022-9999",
+                  "title": "Templating sandbox escape in deployment hooks",
+                  "summary": "Server-side templating in the deployment hook runner does not sanitize helper functions, allowing arbitrary file reads.",
+                  "severity": "high",
+                  "cvss": 8.1,
+                  "vector": "AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:L",
+                  "published": "2022-08-19T15:00:00Z",
+                  "updated": "2023-06-01T12:00:00Z",
+                  "riskFactors": [
+                    "Attack complexity: low",
+                    "Attack vector: network",
+                    "Has fix"
+                  ],
+                  "exploitAvailable": true,
+                  "status": "fix available",
+                  "kaiStatus": "needs triage",
+                  "analysisSource": "manual",
+                  "aiConfidence": 0.22,
+                  "manualConfidence": 0.81,
+                  "packageName": "hook-runner",
+                  "packageVersion": "1.8.2",
+                  "fixVersion": "1.9.0",
+                  "trendScore": 3,
+                  "tags": [
+                    "cicd",
+                    "templating"
+                  ],
+                  "references": [
+                    "https://nvd.nist.gov/vuln/detail/CVE-2022-9999"
+                  ],
+                  "timeline": [
+                    { "label": "Detected", "date": "2022-08-19T15:00:00Z" },
+                    { "label": "Investigating", "date": "2022-08-22T09:32:00Z" },
+                    { "label": "Mitigated", "date": "2022-08-30T18:04:00Z" }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "demo-observability": {
+      "name": "demo-observability",
+      "repos": {
+        "telemetry-api": {
+          "name": "telemetry-api",
+          "description": "Collects Kai cluster metrics and traces",
+          "images": {
+            "1.12.3": {
+              "name": "quay.example.com/demo-observability/telemetry-api:1.12.3",
+              "version": "1.12.3",
+              "baseImage": "quay.example.com/base-images/python311-slim:latest",
+              "buildType": "python",
+              "maintainer": "Kai Security Platform",
+              "createTime": "2024-03-04T07:45:00Z",
+              "vulnerabilities": [
+                {
+                  "cve": "CVE-2024-0678",
+                  "title": "gRPC reflection buffer overflow",
+                  "summary": "An oversized telemetry payload can overflow the reflection handler and crash the API pod, triggering autoscaler churn.",
+                  "severity": "high",
+                  "cvss": 8.0,
+                  "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+                  "published": "2024-02-10T03:12:00Z",
+                  "updated": "2024-03-01T09:00:00Z",
+                  "riskFactors": [
+                    "Attack vector: network",
+                    "High availability impact"
+                  ],
+                  "exploitAvailable": false,
+                  "status": "investigating",
+                  "kaiStatus": "investigating",
+                  "analysisSource": "ai",
+                  "aiConfidence": 0.76,
+                  "manualConfidence": 0.32,
+                  "packageName": "grpcio",
+                  "packageVersion": "1.58.0",
+                  "fixVersion": "1.58.2",
+                  "trendScore": 4,
+                  "tags": [
+                    "observability",
+                    "service-mesh"
+                  ],
+                  "references": [
+                    "https://nvd.nist.gov/vuln/detail/CVE-2024-0678",
+                    "https://github.com/grpc/grpc/releases/tag/v1.58.2"
+                  ],
+                  "timeline": [
+                    { "label": "Detected", "date": "2024-02-10T03:12:00Z" },
+                    { "label": "SRE Notified", "date": "2024-02-11T16:00:00Z" }
+                  ]
+                },
+                {
+                  "cve": "CVE-2021-34527",
+                  "title": "PrintNightmare plugin leftover",
+                  "summary": "A legacy Windows exporter plugin still bundles the Print Spooler service and triggers detections even though the code path is disabled.",
+                  "severity": "low",
+                  "cvss": 3.1,
+                  "vector": "AV:L/AC:L/PR:H/UI:R/S:U/C:L/I:N/A:N",
+                  "published": "2021-07-01T12:00:00Z",
+                  "updated": "2023-05-15T10:00:00Z",
+                  "riskFactors": [
+                    "Legacy component",
+                    "Requires social engineering"
+                  ],
+                  "exploitAvailable": false,
+                  "status": "accepted risk",
+                  "kaiStatus": "invalid - norisk",
+                  "analysisSource": "manual",
+                  "aiConfidence": 0.12,
+                  "manualConfidence": 0.66,
+                  "packageName": "telemetry-windows-exporter",
+                  "packageVersion": "0.9.4",
+                  "trendScore": 1,
+                  "tags": [
+                    "observability",
+                    "legacy"
+                  ],
+                  "references": [
+                    "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527"
+                  ],
+                  "timeline": [
+                    { "label": "Detected", "date": "2021-07-01T12:00:00Z" },
+                    { "label": "Risk Accepted", "date": "2021-07-15T09:00:00Z" }
+                  ]
+                }
+              ]
+            },
+            "1.11.9": {
+              "name": "quay.example.com/demo-observability/telemetry-api:1.11.9",
+              "version": "1.11.9",
+              "baseImage": "quay.example.com/base-images/python310-slim:latest",
+              "buildType": "python",
+              "maintainer": "Kai Security Platform",
+              "createTime": "2023-11-01T07:30:00Z",
+              "vulnerabilities": [
+                {
+                  "cve": "CVE-2023-4455",
+                  "title": "Outdated OpenSSL in telemetry collector",
+                  "summary": "Collector pods compiled against OpenSSL 1.1.1u permit RSA padding oracle attacks that can leak session keys.",
+                  "severity": "high",
+                  "cvss": 7.5,
+                  "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                  "published": "2023-10-12T05:00:00Z",
+                  "updated": "2023-12-01T10:00:00Z",
+                  "riskFactors": [
+                    "Attack vector: network",
+                    "Has fix",
+                    "Cryptography weakness"
+                  ],
+                  "exploitAvailable": false,
+                  "status": "fix available",
+                  "kaiStatus": "unpatched",
+                  "analysisSource": "ai",
+                  "aiConfidence": 0.61,
+                  "manualConfidence": 0.41,
+                  "packageName": "openssl",
+                  "packageVersion": "1.1.1u",
+                  "fixVersion": "3.0.12",
+                  "trendScore": 3,
+                  "tags": [
+                    "observability",
+                    "crypto"
+                  ],
+                  "references": [
+                    "https://www.openssl.org/news/secadv/20231012.txt"
+                  ],
+                  "timeline": [
+                    { "label": "Detected", "date": "2023-10-12T05:00:00Z" },
+                    { "label": "Patched", "date": "2023-12-05T09:10:00Z" }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
